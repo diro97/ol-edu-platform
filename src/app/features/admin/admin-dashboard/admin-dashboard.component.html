@@ -1,0 +1,29 @@
+@if (!fb.isConfigured) {
+  <div class="config-warning container">
+    &#9888;&#65039; Firebase isn't configured yet — data won't save or sync until you paste your firebaseConfig into <code>core/services/firebase.service.ts</code>.
+  </div>
+}
+
+<div class="container admin-wrap">
+  <div class="admin-header">
+    <div>
+      <h1>Admin dashboard</h1>
+      <p class="text-dim">Manage past papers, model papers and quizzes for all three subjects.</p>
+    </div>
+  </div>
+
+  <div class="stat-cards">
+    <div class="card stat"><div class="n">{{ paperCount }}</div><div class="l">Total papers</div></div>
+    <div class="card stat"><div class="n">{{ quizCount }}</div><div class="l">Total quizzes</div></div>
+    <div class="card stat"><div class="n">{{ specialCount }}</div><div class="l">Special questions</div></div>
+    <div class="card stat"><div class="n">3</div><div class="l">Subjects</div></div>
+  </div>
+
+  <div class="admin-nav">
+    <a routerLink="/admin/papers" routerLinkActive="active">&#128196; Manage Papers</a>
+    <a routerLink="/admin/quizzes" routerLinkActive="active">&#10067; Manage Quizzes</a>
+    <a routerLink="/admin/special-questions" routerLinkActive="active">&#128247; Special Questions</a>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

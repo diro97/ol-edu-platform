@@ -1,0 +1,76 @@
+<div class="panel card">
+  <h3>{{ editingId ? 'Edit quiz' : 'Create a new quiz' }}</h3>
+  <div class="form-grid">
+    <div class="field">
+      <label>Subject</label>
+      <select [(ngModel)]="subject">
+        @for (s of subjects; track s) { <option [value]="s">{{ s }}</option> }
+      </select>
+    </div>
+    <div class="field">
+      <label>Quiz title</label>
+      <input [(ngModel)]="title" placeholder="e.g. Algebra Basics Quiz">
+    </div>
+    <div class="field span2">
+      <label>Description</label>
+      <input [(ngModel)]="description" placeholder="One line about what this quiz covers">
+    </div>
+  </div>
+
+  <div class="questions-editor">
+    @for (q of questions; track q.id; let qi = $index) {
+      <div class="question-block">
+        <div class="q-block-head">
+          <span class="q-tag">Question {{ qi + 1 }}</span>
+          <button class="btn small danger" (click)="removeQuestion(qi)">Remove</button>
+        </div>
+        <div class="field span2">
+          <label>Question text</label>
+          <input [(ngModel)]="q.question" placeholder="e.g. What is the value of x in 2x + 4 = 10?">
+        </div>
+        <div class="options-grid">
+          @for (opt of q.options; track $index; let oi = $index) {
+            <div class="option-row">
+              <input type="radio" [name]="'correct-'+q.id" [checked]="q.correctIndex===oi" (change)="q.correctIndex=oi">
+              <input class="opt-input" [(ngModel)]="q.options[oi]" [placeholder]="'Option ' + ['A','B','C','D'][oi]">
+            </div>
+          }
+        </div>
+        <div class="field span2">
+          <label>Explanation (shown after submission)</label>
+          <textarea [(ngModel)]="q.explanation" placeholder="Why this is the correct answer / the method used"></textarea>
+        </div>
+      </div>
+    }
+    <button class="btn accent" (click)="addQuestion()">&#10133; Add question</button>
+  </div>
+
+  <div class="form-actions">
+    @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
+    <button class="btn primary" [disabled]="saving" (click)="save()">
+      {{ saving ? 'Saving…' : 'Save quiz' }}
+    </button>
+  </div>
+</div>
+
+<div class="panel card">
+  <h3>All quizzes ({{ quizzes.length }})</h3>
+  @if (quizzes.length === 0) {
+    <div class="empty">No quizzes created yet.</div>
+  }
+  <div class="row-list">
+    @for (q of quizzes; track q.id) {
+      <div class="row">
+        <div class="left">
+          <span class="badge" [class.math]="q.subject==='Mathematics'" [class.science]="q.subject==='Science'" [class.it]="q.subject==='IT'">{{ q.subject }}</span>
+          <span class="title">{{ q.title }}</span>
+          <span class="meta mono text-faint">{{ q.questions.length }} questions</span>
+        </div>
+        <div class="actions">
+          <button class="btn small" (click)="edit(q)">Edit</button>
+          <button class="btn small danger" (click)="remove(q)">Delete</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,35 @@
+.hero{padding:64px 0 44px; text-align:center;}
+.eyebrow{
+  font-family:var(--font-mono); font-size:11.5px; font-weight:600; letter-spacing:0.18em;
+  color:var(--accent); text-transform:uppercase;
+}
+.hero h1{font-size:clamp(30px,5vw,46px); margin:16px 0 18px; letter-spacing:-0.01em;}
+.hero .lead{max-width:600px; margin:0 auto; color:var(--ink-dim); font-size:16px; line-height:1.6;}
+
+.subjects{
+  display:grid; grid-template-columns:repeat(auto-fit, minmax(260px,1fr)); gap:20px;
+  padding:20px 24px 50px;
+}
+.subject-card{
+  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius-lg);
+  padding:28px; display:flex; flex-direction:column; gap:10px; transition:all .18s;
+  box-shadow:var(--shadow-sm);
+}
+.subject-card:hover{transform:translateY(-3px); box-shadow:var(--shadow-md);}
+.subject-card .icon{font-size:30px; margin-bottom:4px;}
+.subject-card h3{font-size:20px;}
+.subject-card p{color:var(--ink-dim); font-size:14px; flex:1;}
+.subject-card .cta{font-weight:700; font-size:13.5px; margin-top:6px;}
+.subject-card.math .cta{color:var(--math);}
+.subject-card.science .cta{color:var(--science);}
+.subject-card.it .cta{color:var(--it);}
+.subject-card.math:hover{border-color:var(--math);}
+.subject-card.science:hover{border-color:var(--science);}
+.subject-card.it:hover{border-color:var(--it);}
+
+.how{padding:20px 24px 70px;}
+.how h2{text-align:center; font-size:26px; margin-bottom:32px;}
+.steps{display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:28px;}
+.step .num{font-family:var(--font-mono); color:var(--accent); font-weight:700; font-size:13px;}
+.step h4{margin:8px 0 6px; font-size:16px;}
+.step p{font-size:13.5px; line-height:1.6;}

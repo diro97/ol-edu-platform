@@ -1,0 +1,106 @@
+<section class="subject-hero" [class]="colorClass()">
+  <div class="container">
+    <span class="badge" [class]="colorClass()">O/L {{ subject }}</span>
+    <h1>{{ subject }}</h1>
+    <p class="text-dim">Past papers, model papers and quizzes — all in one place.</p>
+  </div>
+</section>
+
+<div class="container tabs">
+  <button class="tab-btn" [class.active]="tab==='past'" (click)="tab='past'">
+    Past Papers <span class="count">{{ pastPapers.length }}</span>
+  </button>
+  <button class="tab-btn" [class.active]="tab==='model'" (click)="tab='model'">
+    Model Papers <span class="count">{{ modelPapers.length }}</span>
+  </button>
+  <button class="tab-btn" [class.active]="tab==='quiz'" (click)="tab='quiz'">
+    Quizzes <span class="count">{{ quizzes.length }}</span>
+  </button>
+  <button class="tab-btn" [class.active]="tab==='special'" (click)="tab='special'">
+    Special Questions <span class="count">{{ specialQuestions.length }}</span>
+  </button>
+</div>
+
+<div class="container list-area">
+
+  @if (tab==='past' || tab==='model') {
+    @let papers = tab==='past' ? pastPapers : modelPapers;
+    @if (papers.length === 0) {
+      <div class="empty">No {{ tab==='past' ? 'past' : 'model' }} papers uploaded for {{ subject }} yet. Check back soon.</div>
+    }
+    <div class="paper-list">
+      @for (p of papers; track p.id) {
+        <div class="paper-card" [class.open]="expandedId===p.id">
+          <button class="paper-head" (click)="toggle(p.id)">
+            <div>
+              <div class="paper-title">{{ p.title }}</div>
+              <div class="paper-meta text-faint mono">{{ p.year }}</div>
+            </div>
+            <span class="chev">{{ expandedId===p.id ? '−' : '+' }}</span>
+          </button>
+          @if (expandedId===p.id) {
+            <div class="paper-body">
+              <div class="paper-actions">
+                @if (p.fileUrl) {
+                  <a class="btn primary small" [href]="p.fileUrl" target="_blank" rel="noopener">&#128196; View question paper</a>
+                }
+                @if (p.answerUrl) {
+                  <a class="btn accent small" [href]="p.answerUrl" target="_blank" rel="noopener">&#9989; View answers</a>
+                }
+              </div>
+              @if (p.solutionNotes) {
+                <div class="solution">
+                  <h4>Solution method</h4>
+                  <p>{{ p.solutionNotes }}</p>
+                </div>
+              }
+            </div>
+          }
+        </div>
+      }
+    </div>
+  }
+
+  @if (tab==='quiz') {
+    @if (quizzes.length === 0) {
+      <div class="empty">No quizzes for {{ subject }} yet. Check back soon.</div>
+    }
+    <div class="quiz-grid">
+      @for (q of quizzes; track q.id) {
+        <a class="quiz-card" [routerLink]="['/quiz', q.id]">
+          <h4>{{ q.title }}</h4>
+          <p class="text-dim">{{ q.description }}</p>
+          <span class="quiz-meta mono text-faint">{{ q.questions.length }} questions</span>
+        </a>
+      }
+    </div>
+  }
+
+  @if (tab==='special') {
+    @if (specialQuestions.length === 0) {
+      <div class="empty">No special questions for {{ subject }} yet. Check back soon.</div>
+    }
+    <div class="special-list">
+      @for (item of specialQuestions; track item.id) {
+        <div class="special-card">
+          @if (item.questionImage) { <img class="special-img" [src]="item.questionImage" alt="Question"> }
+          @if (item.questionText) { <p class="special-question-text">{{ item.questionText }}</p> }
+
+          @if (item.explanationImage || item.explanationText) {
+            @if (revealedExplanation.has(item.id)) {
+              <div class="special-explanation">
+                <h4>Explanation</h4>
+                @if (item.explanationImage) { <img class="special-img" [src]="item.explanationImage" alt="Explanation"> }
+                @if (item.explanationText) { <p>{{ item.explanationText }}</p> }
+              </div>
+              <button class="btn small ghost" (click)="toggleExplanation(item.id)">Hide explanation</button>
+            } @else {
+              <button class="btn accent small" (click)="toggleExplanation(item.id)">&#128161; Show explanation</button>
+            }
+          }
+        </div>
+      }
+    </div>
+  }
+
+</div>
