@@ -1,0 +1,62 @@
+.auth-wrap{display:flex; justify-content:center; padding:70px 20px;}
+.auth-card{padding:34px; width:100%; max-width:400px; text-align:center;}
+.icon{font-size:32px; margin-bottom:8px;}
+h2{font-size:22px; margin-bottom:6px;}
+.auth-card > p.text-dim{font-size:13.5px; margin-bottom:22px;}
+.field{margin-bottom:14px; text-align:left;}
+.err{color:var(--error); font-size:12px; min-height:16px; margin:4px 0 10px;}
+.switch{margin-top:16px; font-size:13px; color:var(--ink-dim);}
+.switch a{color:var(--primary); font-weight:600;}
+
+.payment-card{text-align:left;}
+.payment-card .icon, .payment-card h2, .payment-card > p.text-dim{text-align:center;}
+.amount-box{
+  text-align:center; font-family:var(--font-display); font-weight:700; font-size:24px;
+  color:var(--primary); background:var(--primary-tint); border-radius:var(--radius-sm);
+  padding:14px; margin:18px 0;
+}
+.pay-section{margin-bottom:16px;}
+.pay-section h4{font-size:12px; text-transform:uppercase; letter-spacing:0.05em; color:var(--ink-dim); margin-bottom:8px;}
+.pay-section pre{
+  font-family:var(--font-mono); font-size:12.5px; line-height:1.7; white-space:pre-wrap;
+  background:var(--surface-2); border-radius:var(--radius-sm); padding:12px 14px; margin:0;
+}
+.note{font-size:12px; line-height:1.6; margin:16px 0;}
+/* Add these rules to your existing signup.component.css —
+   I don't have that file, so these are new additions only.
+   They use var() tokens that match the names seen in your other
+   components (border-soft, ink, ink-dim, surface); rename if yours differ. */
+
+.btn.google{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  background:#fff; color:var(--ink); border:1.5px solid var(--border-soft);
+  font-weight:600;
+}
+.btn.google:hover:not(:disabled){
+  border-color:var(--ink-dim); background:var(--surface-2, #f7f7f7);
+}
+.btn.google:disabled{ opacity:.6; cursor:default; }
+.google-icon{ flex-shrink:0; }
+
+.divider{
+  display:flex; align-items:center; gap:12px;
+  margin:18px 0; color:var(--ink-faint, var(--ink-dim));
+  font-size:12.5px;
+}
+.divider::before, .divider::after{
+  content:''; flex:1; height:1px; background:var(--border-soft);
+}
+/* Add to your existing signup.component.css (or auth shared css).
+   Your .icon element previously just held emoji text — this sizes
+   the new inline SVG to match, and adds a green tint for the
+   "success" state on the payment/confirmation screen. */
+
+.icon svg{
+  width: 32px;
+  height: 32px;
+  color: var(--ink-dim, var(--ink));
+}
+
+.icon.success svg{
+  color: var(--success, #2e7d32);
+}

@@ -1,0 +1,82 @@
+<div class="auth-wrap">
+  @if (!done) {
+    <div class="card auth-card">
+      <div class="icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+          <path d="M6 12v5c0 1.66 2.69 3 6 3s6-1.34 6-3v-5"/>
+        </svg>
+      </div>
+      <h2>Create your account</h2>
+      <p class="text-dim">Sign up, then complete payment to unlock full access.</p>
+      <button class="btn google full" [disabled]="googleLoading || loading" (click)="signUpWithGoogle()">
+        <svg class="google-icon" viewBox="0 0 48 48" width="18" height="18">
+          <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.9 32.5 29.4 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6 29.5 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.7-.4-3.5z"/>
+          <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.6 15.9 18.9 13 24 13c3.1 0 5.9 1.2 8 3.1l5.7-5.7C34.5 6 29.5 4 24 4c-7.6 0-14.1 4.3-17.7 10.7z"/>
+          <path fill="#4CAF50" d="M24 44c5.4 0 10.3-1.9 14.1-5.1l-6.5-5.5c-2 1.5-4.6 2.6-7.6 2.6-5.4 0-9.9-3.5-11.5-8.3l-6.6 5.1C9.8 39.6 16.3 44 24 44z"/>
+          <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.3-2.3 4.2-4.2 5.6l6.5 5.5C39.4 37.4 44 31.5 44 24c0-1.3-.1-2.7-.4-3.5z"/>
+        </svg>
+        {{ googleLoading ? 'Connecting…' : 'Sign up with Google' }}
+      </button>
+      <div class="divider"><span>or</span></div>
+      <div class="field">
+        <label>Name</label>
+        <input type="text" [(ngModel)]="name" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="email" placeholder="you@example.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="password" placeholder="At least 6 characters">
+      </div>
+      <div class="field">
+        <label>Confirm password</label>
+        <input type="password" [(ngModel)]="confirmPassword" placeholder="Re-enter password" (keydown.enter)="submit()">
+      </div>
+      <p class="err">{{ error }}</p>
+      <button class="btn primary full" [disabled]="loading" (click)="submit()">
+        {{ loading ? 'Creating account…' : 'Create account' }}
+      </button>
+      <p class="switch">Already have an account? <a routerLink="/login">Log in</a></p>
+    </div>
+  } @else {
+    <div class="card auth-card payment-card">
+      <div class="icon success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8 12.5l2.5 2.5L16 9.5"/>
+        </svg>
+      </div>
+      <h2>Account created!</h2>
+      <p class="text-dim">One last step — complete payment so we can activate your access.</p>
+      <div class="amount-box">{{ paymentInfo.amount }}</div>
+      @if (paymentInfo.bankDetails) {
+        <div class="pay-section">
+          <h4>Bank transfer</h4>
+          <pre>{{ paymentInfo.bankDetails }}</pre>
+        </div>
+      }
+      @if (paymentInfo.payHereLink) {
+        <div class="pay-section">
+          <h4>Or pay online</h4>
+          <a class="btn accent full" [href]="paymentInfo.payHereLink" target="_blank" rel="noopener">Pay via PayHere</a>
+        </div>
+      }
+      @if (paymentInfo.whatsappNumber) {
+        <div class="pay-section">
+          <h4>After paying</h4>
+          <a class="btn full" [href]="'https://wa.me/' + paymentInfo.whatsappNumber" target="_blank" rel="noopener">
+            &#128172; Send payment proof on WhatsApp
+          </a>
+        </div>
+      }
+      <p class="note text-faint">
+        Include the email you signed up with ({{ email }}) so we can match your payment.
+        We'll approve your account within 24 hours — email {{ paymentInfo.contactEmail }} if you have questions.
+      </p>
+      <a class="btn full" routerLink="/login">Go to login</a>
+    </div>
+  }
+</div>

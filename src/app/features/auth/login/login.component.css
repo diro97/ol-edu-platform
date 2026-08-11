@@ -1,0 +1,70 @@
+
+.auth-wrap {
+  display: flex;
+  justify-content: center;
+  padding: 70px 20px;
+}
+
+.auth-card {
+  padding: 34px;
+  width: 100%;
+  max-width: 380px;
+  text-align: center;
+}
+
+/* Professional Education Logo */
+.brand-logo {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--primary);
+  background: rgba(37, 99, 235, 0.10);
+
+  border-radius: 18px;
+
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.12);
+}
+
+.brand-logo svg {
+  width: 38px;
+  height: 38px;
+}
+
+h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+}
+
+.auth-card > p.text-dim {
+  font-size: 13.5px;
+  margin-bottom: 22px;
+}
+
+.field {
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.err {
+  color: var(--error);
+  font-size: 12px;
+  min-height: 16px;
+  margin: 4px 0 10px;
+}
+
+.switch {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--ink-dim);
+}
+
+.switch a {
+  color: var(--primary);
+  font-weight: 600;
+}
+

@@ -1,0 +1,35 @@
+<div class="pending-wrap">
+  <div class="card pending-card">
+    <div class="icon">&#9203;</div>
+    <h2>Payment pending</h2>
+    <p class="text-dim">
+      Your account is created but not yet activated. This page will automatically
+      unlock the moment your payment is confirmed — no need to refresh.
+    </p>
+
+    <div class="amount-box">{{ paymentInfo.amount }}</div>
+
+    @if (paymentInfo.bankDetails) {
+      <div class="pay-section">
+        <h4>Bank transfer</h4>
+        <pre>{{ paymentInfo.bankDetails }}</pre>
+      </div>
+    }
+    @if (paymentInfo.payHereLink) {
+      <div class="pay-section">
+        <a class="btn accent full" [href]="paymentInfo.payHereLink" target="_blank" rel="noopener">Pay via PayHere</a>
+      </div>
+    }
+    @if (paymentInfo.whatsappNumber) {
+      <div class="pay-section">
+        <a class="btn full" [href]="'https://wa.me/' + paymentInfo.whatsappNumber" target="_blank" rel="noopener">
+          &#128172; Send payment proof on WhatsApp
+        </a>
+      </div>
+    }
+    <p class="note text-faint">
+      Signed in as {{ auth.currentUser()?.email }}. Contact {{ paymentInfo.contactEmail }} if this is taking a while.
+    </p>
+    <button class="btn ghost full" (click)="logout()">Log out</button>
+  </div>
+</div>

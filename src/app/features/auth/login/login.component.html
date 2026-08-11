@@ -1,0 +1,45 @@
+<div class="auth-wrap">
+  <div class="card auth-card">
+    <div class="brand-logo">
+  <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+    <path
+      d="M8 24L32 12L56 24L32 36L8 24Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linejoin="round"/>
+
+    <path
+      d="M16 29V39C16 39 22 47 32 47C42 47 48 39 48 39V29"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"/>
+
+    <path
+      d="M56 25V39"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="4"
+      stroke-linecap="round"/>
+  </svg>
+</div>
+    <h2>Welcome back</h2>
+    <p class="text-dim">Log in to access your papers, quizzes and special questions.</p>
+
+    <div class="field">
+      <label>Email</label>
+      <input type="email" [(ngModel)]="email" placeholder="you@example.com" (keydown.enter)="submit()">
+    </div>
+    <div class="field">
+      <label>Password</label>
+      <input type="password" [(ngModel)]="password" placeholder="••••••••" (keydown.enter)="submit()">
+    </div>
+    <p class="err">{{ error }}</p>
+    <button class="btn primary full" [disabled]="loading" (click)="submit()">
+      {{ loading ? 'Logging in…' : 'Log in' }}
+    </button>
+    <p class="switch">New here? <a routerLink="/signup">Create an account</a></p>
+  </div>
+</div>
+

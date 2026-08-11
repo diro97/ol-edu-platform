@@ -1,0 +1,51 @@
+<div class="panel card">
+  <h3>Registered users</h3>
+  <div class="stat-row">
+    <div class="mini-stat total"><span class="n">{{ totalCount }}</span><span class="l">Total accounts</span></div>
+    <div class="mini-stat pending"><span class="n">{{ pendingCount }}</span><span class="l">Awaiting approval</span></div>
+    <div class="mini-stat approved"><span class="n">{{ approvedCount }}</span><span class="l">Approved</span></div>
+  </div>
+  <div class="controls">
+    <input class="search" [(ngModel)]="search" placeholder="Search by email…">
+    <div class="filter-tabs">
+      <button [class.active]="filter==='all'" (click)="filter='all'">All</button>
+      <button [class.active]="filter==='pending'" (click)="filter='pending'">Pending</button>
+      <button [class.active]="filter==='approved'" (click)="filter='approved'">Approved</button>
+    </div>
+  </div>
+  @if (filtered.length === 0) {
+    <div class="empty">No users match here.</div>
+  }
+  <div class="row-list">
+    @for (u of filtered; track u.uid) {
+      <div class="row">
+        <div class="left">
+          <span class="status-dot" [class.paid]="u.isPaid"></span>
+          <span class="email">{{ u.email }}</span>
+          <span class="meta mono text-faint">Joined {{ u.createdAt | date:'MMM d, y' }}</span>
+        </div>
+        <div class="actions">
+          <a
+            class="btn small ghost"
+            [routerLink]="['/admin/quiz-results']"
+            [queryParams]="{ uid: u.uid, email: u.email }"
+          >View quiz marks</a>
+          @if (!u.isPaid) {
+            <button class="btn small accent" (click)="approve(u)">&#9989; Approve access</button>
+          } @else {
+            <button class="btn small danger" (click)="revoke(u)">Revoke access</button>
+          }
+          <button class="btn small danger" (click)="deleteUser(u)">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              <line x1="10" y1="11" x2="10" y2="17"/>
+              <line x1="14" y1="11" x2="14" y2="17"/>
+            </svg>
+            Delete
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

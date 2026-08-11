@@ -1,0 +1,57 @@
+.panel{padding:24px;}
+.panel h3{font-size:17px; margin-bottom:16px;}
+
+.stat-row{display:flex; gap:14px; margin-bottom:20px; flex-wrap:wrap;}
+.mini-stat{
+  flex:1; min-width:140px; background:var(--surface-2); border-radius:var(--radius-sm);
+  padding:14px 16px; text-align:center;
+}
+.mini-stat .n{display:block; font-family:var(--font-display); font-size:22px; font-weight:700;}
+.mini-stat .l{font-size:11px; color:var(--ink-dim); text-transform:uppercase; letter-spacing:0.04em;}
+.mini-stat.pending .n{color:var(--accent);}
+.mini-stat.approved .n{color:var(--success);}
+
+.controls{display:flex; gap:12px; margin-bottom:18px; flex-wrap:wrap; align-items:center;}
+.search{
+  flex:1; min-width:200px; font-size:13.5px; border:1px solid var(--border); border-radius:var(--radius-sm);
+  padding:9px 12px; outline:none;
+}
+.search:focus{border-color:var(--primary-bright);}
+.filter-tabs{display:flex; gap:6px;}
+.filter-tabs button{
+  font-size:12.5px; font-weight:600; padding:7px 14px; border-radius:20px;
+  border:1px solid var(--border); background:var(--surface); color:var(--ink-dim);
+}
+.filter-tabs button.active{background:var(--primary); color:#fff; border-color:var(--primary);}
+
+.empty{padding:30px; text-align:center; color:var(--ink-faint); font-family:var(--font-mono); font-size:13px;}
+.row-list{display:flex; flex-direction:column; gap:10px;}
+.row{
+  display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap;
+  background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius-sm);
+  padding:12px 16px;
+}
+.left{display:flex; align-items:center; gap:12px; flex-wrap:wrap;}
+.status-dot{width:9px; height:9px; border-radius:50%; background:var(--accent); flex-shrink:0;}
+.status-dot.paid{background:var(--success);}
+.email{font-family:var(--font-display); font-weight:600; font-size:14px;}
+.meta{font-size:11px;}
+
+@media (max-width:640px){
+  .row{flex-direction:column; align-items:flex-start;}
+}
+/* Add this to your existing manage-users.component.css —
+   your .mini-stat.pending and .mini-stat.approved rules already exist,
+   this just adds a matching neutral color for the new "total" one. */
+
+.mini-stat.total .n{ color: var(--ink); }
+/* Add to manage-users.component.css — sizes/aligns the new SVG icon
+   inside the .btn.small.danger Delete button. Your existing button
+   styling (padding, colors) stays as-is. */
+
+.btn.small .btn-icon{
+  width: 13px;
+  height: 13px;
+  vertical-align: -2px;
+  margin-right: 2px;
+}

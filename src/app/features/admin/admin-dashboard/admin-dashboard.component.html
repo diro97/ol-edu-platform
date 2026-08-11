@@ -1,0 +1,66 @@
+@if (!fb.isConfigured) {
+  <div class="config-warning container">
+    &#9888;&#65039; Firebase isn't configured yet — data won't save or sync until you paste your firebaseConfig into <code>core/services/firebase.service.ts</code>.
+  </div>
+}
+
+<div class="container admin-wrap">
+  <div class="admin-header">
+    <div>
+      <h1>Admin dashboard</h1>
+      <p class="text-dim">Manage past papers, model papers and quizzes for all three subjects.</p>
+    </div>
+  </div>
+
+  <div class="stat-cards">
+    <div class="card stat"><div class="n">{{ paperCount }}</div><div class="l">Total papers</div></div>
+    <div class="card stat"><div class="n">{{ quizCount }}</div><div class="l">Total quizzes</div></div>
+    <div class="card stat"><div class="n">{{ specialCount }}</div><div class="l">Special questions</div></div>
+    <div class="card stat"><div class="n">3</div><div class="l">Subjects</div></div>
+  </div>
+
+  <div class="admin-nav">
+    <a routerLink="/admin/papers" routerLinkActive="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <path d="M14 2v6h6"/>
+        <line x1="8" y1="13" x2="16" y2="13"/>
+        <line x1="8" y1="17" x2="16" y2="17"/>
+      </svg>
+      Manage Papers
+    </a>
+    <a routerLink="/admin/quizzes" routerLinkActive="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+      Manage Quizzes
+    </a>
+    <!-- <a routerLink="/admin/quiz-results" routerLinkActive="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20V10"/>
+        <path d="M18 20V4"/>
+        <path d="M6 20v-4"/>
+      </svg>
+      Quiz Results
+    </a> -->
+    <a routerLink="/admin/special-questions" routerLinkActive="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      Special Questions
+    </a>
+    <a routerLink="/admin/users" routerLinkActive="active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      Manage Users
+    </a>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

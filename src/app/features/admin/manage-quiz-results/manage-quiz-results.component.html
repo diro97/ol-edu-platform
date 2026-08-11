@@ -1,0 +1,53 @@
+<div class="panel card">
+  <h3>Quiz results</h3>
+
+  @if (focusedUid) {
+    <div class="focused-banner">
+      <div>
+        Showing results for <strong>{{ focusedEmail }}</strong>
+        <span class="mono text-faint"> · {{ filtered.length }} attempts · avg {{ averageForFocused }}%</span>
+      </div>
+      <button class="btn small ghost" (click)="clearFocus()">Show all users</button>
+    </div>
+  }
+
+  <div class="controls">
+    <input
+      class="search"
+      [(ngModel)]="search"
+      placeholder="Search by email…"
+      [disabled]="!!focusedUid"
+    >
+    <div class="filter-tabs">
+      <button [class.active]="subjectFilter==='all'" (click)="subjectFilter='all'">All</button>
+      <button [class.active]="subjectFilter==='Mathematics'" (click)="subjectFilter='Mathematics'">Maths</button>
+      <button [class.active]="subjectFilter==='Science'" (click)="subjectFilter='Science'">Science</button>
+      <button [class.active]="subjectFilter==='IT'" (click)="subjectFilter='IT'">IT</button>
+    </div>
+  </div>
+
+  @if (filtered.length === 0) {
+    <div class="empty">No quiz attempts match here yet.</div>
+  }
+
+  <div class="row-list">
+    @for (r of filtered; track r.id) {
+      <div class="row">
+        <div class="left">
+          <span class="badge" [class.math]="r.subject==='Mathematics'" [class.science]="r.subject==='Science'" [class.it]="r.subject==='IT'">{{ r.subject }}</span>
+          @if (!focusedUid) {
+            <a class="email" [routerLink]="[]" [queryParams]="{ uid: r.uid, email: r.email }">{{ r.email }}</a>
+          }
+          <span class="title">{{ r.quizTitle }}</span>
+          <span class="meta mono text-faint">{{ r.submittedAt | date:'MMM d, y, h:mm a' }}</span>
+        </div>
+        <div class="actions">
+          <span class="score-chip" [class.pass]="r.percentage >= 75">
+            {{ r.score }}/{{ r.total }} · {{ r.percentage }}%
+          </span>
+          <button class="btn small ghost" (click)="allowRetake(r)">&#8635; Allow retake</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

@@ -1,0 +1,217 @@
+<header class="site-header">
+
+  <div class="inner">
+
+    <!-- =====================================================
+         BRAND
+         ===================================================== -->
+
+    <a routerLink="/" class="brand">
+
+      <span class="mark">OL</span>
+
+      <span class="brand-text">
+        <span class="name">OL Smart Learning</span>
+        <span class="sub">ONLINE EDUCATION PLATFORM</span>
+      </span>
+
+    </a>
+
+
+    <!-- =====================================================
+         NAVIGATION
+         ===================================================== -->
+
+    <nav>
+
+      <!-- ===================================================
+           STUDENT ACCOUNT
+           =================================================== -->
+
+      @if (userAuth.currentUser()) {
+
+        <!-- Student Account -->
+        <span
+          class="account-chip"
+          [class.paid]="userAuth.isPaid">
+
+          {{ userAuth.isPaid ? '✓ ' : '' }}{{ userAuth.displayName }}
+
+        </span>
+
+
+        <!-- Student Logout -->
+        <button
+          type="button"
+          class="btn small ghost student-logout"
+          (click)="studentLogout()">
+
+          <svg
+            class="logout-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+
+            <path
+              d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+            <path
+              d="M16 17L21 12L16 7"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+            <line
+              x1="21"
+              y1="12"
+              x2="9"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"/>
+
+          </svg>
+
+          <span>Log out</span>
+
+        </button>
+
+      } @else {
+
+        <!-- =================================================
+             LOGIN
+             ================================================= -->
+
+        <a
+          routerLink="/login"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="account-link">
+
+          <span>Log in</span>
+
+        </a>
+
+
+        <!-- =================================================
+             SIGN UP
+             ================================================= -->
+
+        <a
+          routerLink="/signup"
+          routerLinkActive="active-link"
+          [routerLinkActiveOptions]="{ exact: true }"
+          class="account-link">
+
+          <span>Sign up</span>
+
+        </a>
+
+      }
+
+
+      <!-- =====================================================
+           ADMIN BUTTON - ALWAYS VISIBLE
+           ===================================================== -->
+
+      <a
+        routerLink="/admin"
+        [class.active-link]="inAdminArea()"
+        class="admin-link">
+
+        <!-- Admin Shield Icon -->
+        <svg
+          class="admin-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true">
+
+          <!-- Shield -->
+          <path
+            d="M12 3L20 6V11.5C20 16.5 16.8 20.3 12 22C7.2 20.3 4 16.5 4 11.5V6L12 3Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linejoin="round"/>
+
+          <!-- Check -->
+          <path
+            d="M8.5 12L11 14.5L15.8 9.5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"/>
+
+        </svg>
+
+        <span>Admin</span>
+
+      </a>
+
+
+      <!-- =====================================================
+           ADMIN LOGOUT - ONLY VISIBLE WHEN LOGGED IN AS ADMIN
+           ===================================================== -->
+
+      @if (auth.isAdmin()) {
+        <button
+          type="button"
+          class="btn small ghost admin-logout"
+          (click)="logout()">
+
+          <!-- Logout Icon -->
+          <svg
+            class="logout-icon"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true">
+
+            <!-- Door -->
+            <path
+              d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+            <!-- Arrow -->
+            <path
+              d="M16 17L21 12L16 7"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"/>
+
+            <!-- Arrow Line -->
+            <line
+              x1="21"
+              y1="12"
+              x2="9"
+              y2="12"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"/>
+
+          </svg>
+
+          <span>Admin logout</span>
+
+        </button>
+      }
+
+    </nav>
+
+  </div>
+
+</header>

@@ -1,0 +1,102 @@
+<div class="panel card">
+  <h3>{{ editingId ? 'Edit special question' : 'Add a special question' }}</h3>
+  <p class="hint text-dim">
+    Great for handwritten workings, diagrams, or textbook screenshots — upload a photo
+    directly, or type it out as plain text instead.
+  </p>
+
+  <div class="field" style="max-width:260px; margin-bottom:18px;">
+    <label>Subject</label>
+    <select [(ngModel)]="subject">
+      @for (s of subjects; track s) { <option [value]="s">{{ s }}</option> }
+    </select>
+  </div>
+
+  <div class="block">
+    <div class="block-head">
+      <label>Question</label>
+      <div class="mode-switch">
+        <button type="button" [class.active]="questionMode==='photo'" (click)="questionMode='photo'">&#128247; Upload photo</button>
+        <button type="button" [class.active]="questionMode==='text'" (click)="questionMode='text'">&#9999;&#65039; Type text</button>
+      </div>
+    </div>
+
+    @if (questionMode === 'photo') {
+      <input type="file" accept="image/*" (change)="onQuestionPhoto($event)">
+      @if (savingQuestion) { <p class="text-faint mono processing">Processing image…</p> }
+      @if (questionImage) {
+        <div class="preview">
+          <img [src]="questionImage" alt="Question preview">
+          <button type="button" class="btn small danger" (click)="clearQuestionPhoto()">Remove photo</button>
+        </div>
+      }
+    } @else {
+      <textarea [(ngModel)]="questionText" placeholder="Type the question here…"></textarea>
+    }
+  </div>
+
+  <div class="block">
+    <div class="block-head">
+      <label>Explanation (optional)</label>
+      <div class="mode-switch">
+        <button type="button" [class.active]="explanationMode==='photo'" (click)="explanationMode='photo'">&#128247; Upload photo</button>
+        <button type="button" [class.active]="explanationMode==='text'" (click)="explanationMode='text'">&#9999;&#65039; Type text</button>
+      </div>
+    </div>
+
+    @if (explanationMode === 'photo') {
+      <input type="file" accept="image/*" (change)="onExplanationPhoto($event)">
+      @if (savingExplanation) { <p class="text-faint mono processing">Processing image…</p> }
+      @if (explanationImage) {
+        <div class="preview">
+          <img [src]="explanationImage" alt="Explanation preview">
+          <button type="button" class="btn small danger" (click)="clearExplanationPhoto()">Remove photo</button>
+        </div>
+      }
+    } @else {
+      <textarea [(ngModel)]="explanationText" placeholder="Explain the method or working here…"></textarea>
+    }
+  </div>
+
+  <div class="form-actions">
+    @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
+    <button class="btn primary" [disabled]="saving || savingQuestion || savingExplanation" (click)="save()">
+      {{ saving ? 'Saving…' : 'Save special question' }}
+    </button>
+  </div>
+</div>
+
+<div class="panel card">
+  <h3>All special questions ({{ items.length }})</h3>
+  @if (items.length === 0) {
+    <div class="empty">None added yet.</div>
+  }
+  <div class="row-list">
+    @for (item of items; track item.id) {
+      <div class="sq-card" [class.open]="expandedId===item.id">
+        <button class="sq-head" (click)="toggle(item.id)">
+          <span class="badge" [class.math]="item.subject==='Mathematics'" [class.science]="item.subject==='Science'" [class.it]="item.subject==='IT'">{{ item.subject }}</span>
+          <span class="sq-preview-text">{{ item.questionText || (item.questionImage ? 'Photo question' : '') }}</span>
+          <span class="chev">{{ expandedId===item.id ? '−' : '+' }}</span>
+        </button>
+        @if (expandedId===item.id) {
+          <div class="sq-body">
+            @if (item.questionImage) { <img class="sq-img" [src]="item.questionImage" alt="Question"> }
+            @if (item.questionText) { <p>{{ item.questionText }}</p> }
+            @if (item.explanationImage || item.explanationText) {
+              <div class="sq-explanation">
+                <h4>Explanation</h4>
+                @if (item.explanationImage) { <img class="sq-img" [src]="item.explanationImage" alt="Explanation"> }
+                @if (item.explanationText) { <p>{{ item.explanationText }}</p> }
+              </div>
+            }
+            <div class="sq-actions">
+              <button class="btn small" (click)="edit(item)">Edit</button>
+              <button class="btn small danger" (click)="remove(item)">Delete</button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+  </div>
+</div>

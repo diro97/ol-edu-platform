@@ -1,0 +1,69 @@
+<div class="panel card">
+  <h3>{{ editingId ? 'Edit paper' : 'Add a new paper' }}</h3>
+  <p class="hint text-dim">
+    Upload your PDF to Google Drive or Dropbox first, set sharing to
+    <strong>"Anyone with the link can view"</strong>, then paste that link below.
+  </p>
+  <div class="form-grid">
+    <div class="field">
+      <label>Subject</label>
+      <select [(ngModel)]="form.subject">
+        @for (s of subjects; track s) { <option [value]="s">{{ s }}</option> }
+      </select>
+    </div>
+    <div class="field">
+      <label>Type</label>
+      <select [(ngModel)]="form.type">
+        @for (t of types; track t) { <option [value]="t">{{ t }}</option> }
+      </select>
+    </div>
+    <div class="field">
+      <label>Title</label>
+      <input [(ngModel)]="form.title" placeholder="e.g. 2023 O/L Mathematics Paper I">
+    </div>
+    <div class="field">
+      <label>Year</label>
+      <input [(ngModel)]="form.year" placeholder="e.g. 2023">
+    </div>
+    <div class="field span2">
+      <label>Question paper link</label>
+      <input [(ngModel)]="form.fileUrl" placeholder="https://drive.google.com/... or https://dropbox.com/...">
+    </div>
+    <div class="field span2">
+      <label>Answers / marking scheme link (optional)</label>
+      <input [(ngModel)]="form.answerUrl" placeholder="https://drive.google.com/...">
+    </div>
+    <div class="field span2">
+      <label>Solution method (optional)</label>
+      <textarea [(ngModel)]="form.solutionNotes" placeholder="Step-by-step working, key formulas used, or examiner tips"></textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
+    <button class="btn primary" [disabled]="saving" (click)="save()">
+      {{ saving ? 'Saving…' : 'Save paper' }}
+    </button>
+  </div>
+</div>
+
+<div class="panel card">
+  <h3>All papers ({{ papers.length }})</h3>
+  @if (papers.length === 0) {
+    <div class="empty">No papers added yet.</div>
+  }
+  <div class="row-list">
+    @for (p of papers; track p.id) {
+      <div class="row">
+        <div class="left">
+          <span class="badge" [class.math]="p.subject==='Mathematics'" [class.science]="p.subject==='Science'" [class.it]="p.subject==='IT'">{{ p.subject }}</span>
+          <span class="title">{{ p.title }}</span>
+          <span class="meta mono text-faint">{{ p.type }} &middot; {{ p.year }}</span>
+        </div>
+        <div class="actions">
+          <button class="btn small" (click)="edit(p)">Edit</button>
+          <button class="btn small danger" (click)="remove(p)">Delete</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>

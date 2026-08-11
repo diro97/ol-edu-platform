@@ -1,0 +1,42 @@
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">O/L EXAM PREPARATION</span>
+    <h1>Everything you need to<br>walk into the exam hall ready.</h1>
+    <p class="lead">Past papers, model papers and interactive quizzes for Mathematics, Science and IT — every answer comes with a full solution, not just the final number.</p>
+    <div class="hero-cta">
+      <a routerLink="/signup" class="btn primary">Get started</a>
+    </div>
+  </div>
+</section>
+
+<section class="container subjects">
+  @for (s of subjects; track s.slug) {
+    <a class="subject-card" [routerLink]="['/subject', s.slug]" [class]="s.color">
+      <div class="icon" [innerHTML]="s.icon"></div>
+      <h3>{{ s.name }}</h3>
+      <p>{{ s.blurb }}</p>
+      <span class="cta">Explore {{ s.name }} &rarr;</span>
+    </a>
+  }
+</section>
+
+<section class="container how">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <span class="num">01</span>
+      <h4>Pick a subject</h4>
+      <p class="text-dim">Choose Mathematics, Science or IT to see everything organised in one place.</p>
+    </div>
+    <div class="step">
+      <span class="num">02</span>
+      <h4>Study past &amp; model papers</h4>
+      <p class="text-dim">Download question papers alongside full answers and solution methods.</p>
+    </div>
+    <div class="step">
+      <span class="num">03</span>
+      <h4>Test yourself</h4>
+      <p class="text-dim">Take interactive quizzes and get an explanation for every question, right or wrong.</p>
+    </div>
+  </div>
+</section>
