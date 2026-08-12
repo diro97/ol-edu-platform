@@ -70,4 +70,26 @@ export class QuizResultsService {
     const snap = await getDocs(q);
     await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
   }
+
+  /**
+   * Admin action: deletes every result for one specific quiz, across
+   * ALL students — lets everyone retake that quiz fresh (e.g. before
+   * a retest, or after fixing a bad question).
+   */
+  async removeAllForQuiz(quizId: string): Promise<number> {
+    const q = query(this.col(), where('quizId', '==', quizId));
+    const snap = await getDocs(q);
+    await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
+    return snap.size;
+  }
+
+  /**
+   * Admin action: deletes EVERY quiz result, for every student, across
+   * every quiz — full reset, e.g. at the start of a new exam season.
+   */
+  async removeAll(): Promise<number> {
+    const snap = await getDocs(this.col());
+    await Promise.all(snap.docs.map((d) => deleteDoc(d.ref)));
+    return snap.size;
+  }
 }

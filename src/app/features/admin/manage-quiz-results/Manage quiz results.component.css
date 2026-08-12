@@ -1,6 +1,12 @@
 .panel{ padding:24px; margin-bottom:22px; }
 .panel h3{ font-size:17px; margin-bottom:18px; }
 
+.panel-head{
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:18px;
+}
+.panel-head h3{ margin-bottom:0; }
+
 .focused-banner{
   display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;
   background:var(--surface-2); border:1px solid var(--border-soft); border-radius:var(--radius-sm);

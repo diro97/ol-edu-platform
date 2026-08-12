@@ -7,5 +7,5 @@ export const PAYMENT_INFO = {
   bankDetails: 'Bank: PASTE_YOUR_BANK\nAccount name: PASTE_YOUR_NAME\nAccount number: PASTE_YOUR_ACCOUNT_NUMBER\nBranch: PASTE_YOUR_BRANCH',
   payHereLink: '',             // e.g. 'https://payhere.lk/pay/xxxxx' — leave blank to hide this option
   whatsappNumber: '',          // e.g. '94771234567' (no +, no spaces) — leave blank to hide this option
-  contactEmail: 'PASTE_YOUR_EMAIL@example.com'
+  contactEmail: 'LearnEra@gmail.com'
 };

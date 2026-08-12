@@ -60,3 +60,76 @@ h2{font-size:22px; margin-bottom:6px;}
 .icon.success svg{
   color: var(--success, #2e7d32);
 }
+/* Add to signup.component.css (or wherever .auth-card / .payment-card
+   styling lives). Uses your existing --primary-tint token so it matches
+   the rest of the app rather than introducing a new color. */
+
+/* Add to signup.component.css */
+
+.welcome-celebrate{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin: 4px 0 16px;
+}
+
+.w-seal-wrap{
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.w-seal{
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 3px 6px rgba(31,75,67,0.35));
+  animation: w-seal-drop 0.55s cubic-bezier(.34,1.56,.64,1) both;
+  transform-origin: 50% 50%;
+}
+
+@keyframes w-seal-drop{
+  0%{ opacity: 0; transform: scale(2) rotate(-18deg); }
+  60%{ opacity: 1; transform: scale(0.92) rotate(4deg); }
+  100%{ opacity: 1; transform: scale(1) rotate(0deg); }
+}
+
+.w-ring{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 60px;
+  height: 60px;
+  margin: -30px 0 0 -30px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  opacity: 0;
+  animation: w-ring-pulse 0.7s ease-out 0.35s both;
+}
+
+@keyframes w-ring-pulse{
+  0%{ opacity: 0.6; transform: scale(0.7); }
+  100%{ opacity: 0; transform: scale(2.1); }
+}
+
+.welcome-headline{
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 17px;
+  color: var(--ink);
+  opacity: 0;
+  animation: w-text-in 0.4s ease-out 0.3s both;
+}
+
+@keyframes w-text-in{
+  0%{ opacity: 0; transform: translateY(4px); }
+  100%{ opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .w-seal, .w-ring, .welcome-headline{
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}

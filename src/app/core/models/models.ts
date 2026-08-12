@@ -62,3 +62,10 @@ export interface QuizResult {
   answers: (number | null)[]; // stores exactly what the student picked, so a locked attempt can be redisplayed
   submittedAt: number;
 }
+
+export interface Announcement {
+  id: string;
+  title: string;
+  message: string;
+  createdAt: number;
+}

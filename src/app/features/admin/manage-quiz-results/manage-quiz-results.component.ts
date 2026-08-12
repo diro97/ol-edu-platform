@@ -19,6 +19,7 @@ export class ManageQuizResultsComponent implements OnInit, OnDestroy {
   results: QuizResult[] = [];
   search = '';
   subjectFilter: Subject | 'all' = 'all';
+  resetting = false;
 
   /** Set via ?uid=... when arriving from a "View results" link in Manage Users */
   focusedUid: string | null = null;
@@ -87,5 +88,32 @@ export class ManageQuizResultsComponent implements OnInit, OnDestroy {
     if (!ok) return;
     await this.resultsSvc.remove(r.id);
     this.toast.show(`${r.email} can now retake "${r.quizTitle}"`);
+  }
+
+  /**
+   * Bulk action: clears every quiz attempt, for every student, across
+   * every quiz — so everyone can retake everything fresh. Big hammer,
+   * confirmed with an explicit typed-count warning.
+   */
+  async resetAllAttempts(): Promise<void> {
+    if (this.results.length === 0) {
+      this.toast.show('There are no quiz attempts to reset.');
+      return;
+    }
+    const ok = await this.confirm.ask(
+      `Reset ALL quiz attempts for ALL students? This permanently deletes all ${this.results.length} recorded results across every quiz and every user — every student will be able to retake every quiz from scratch. This cannot be undone.`
+    );
+    if (!ok) return;
+
+    this.resetting = true;
+    try {
+      const count = await this.resultsSvc.removeAll();
+      this.toast.show(`Reset complete — ${count} quiz attempt${count === 1 ? '' : 's'} cleared. All students can retake all quizzes.`);
+    } catch (e) {
+      console.error(e);
+      this.toast.show('Something went wrong while resetting — please try again.');
+    } finally {
+      this.resetting = false;
+    }
   }
 }

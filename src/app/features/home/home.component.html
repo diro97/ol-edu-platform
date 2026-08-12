@@ -4,10 +4,34 @@
     <h1>Everything you need to<br>walk into the exam hall ready.</h1>
     <p class="lead">Past papers, model papers and interactive quizzes for Mathematics, Science and IT — every answer comes with a full solution, not just the final number.</p>
     <div class="hero-cta">
-      <a routerLink="/signup" class="btn primary">Get started</a>
+      <a routerLink="" class="btn primary">Get started</a>
     </div>
   </div>
 </section>
+
+@if (announcements().length > 0) {
+  <section class="container news">
+    <h2 class="news-heading">
+      <svg class="news-heading-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 11l18-5v12L3 14v-3z"/>
+        <path d="M11.6 16.8a2.5 2.5 0 0 1-4.9-1"/>
+      </svg>
+      Special news
+    </h2>
+    <div class="news-list">
+      @for (a of announcements(); track a.id) {
+        <div class="news-card">
+          <span class="news-dot" aria-hidden="true"></span>
+          <div>
+            <h4>{{ a.title }}</h4>
+            <p class="text-dim">{{ a.message }}</p>
+            <span class="news-date mono text-faint">{{ a.createdAt | date:'MMM d, y' }}</span>
+          </div>
+        </div>
+      }
+    </div>
+  </section>
+}
 
 <section class="container subjects">
   @for (s of subjects; track s.slug) {

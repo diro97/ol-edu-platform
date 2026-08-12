@@ -1,5 +1,12 @@
 <div class="panel card">
-  <h3>Quiz results</h3>
+  <div class="panel-head">
+    <h3>Quiz results</h3>
+    @if (!focusedUid) {
+      <button class="btn small danger" [disabled]="resetting || results.length === 0" (click)="resetAllAttempts()">
+        &#8635; {{ resetting ? 'Resetting…' : 'Reset all attempts' }}
+      </button>
+    }
+  </div>
 
   @if (focusedUid) {
     <div class="focused-banner">

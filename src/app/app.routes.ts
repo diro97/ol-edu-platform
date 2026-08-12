@@ -67,6 +67,11 @@ export const routes: Routes = [
           import('./features/admin/manage-special-questions/manage-special-questions.component').then((m) => m.ManageSpecialQuestionsComponent)
       },
       {
+        path: 'announcements',
+        loadComponent: () =>
+          import('./features/admin/manage-announcements/manage-announcements.component').then((m) => m.ManageAnnouncementsComponent)
+      },
+      {
         path: 'users',
         loadComponent: () =>
           import('./features/admin/manage-users/manage-users.component').then((m) => m.ManageUsersComponent)

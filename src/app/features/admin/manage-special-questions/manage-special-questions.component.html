@@ -4,23 +4,31 @@
     Great for handwritten workings, diagrams, or textbook screenshots — upload a photo
     directly, or type it out as plain text instead.
   </p>
-
   <div class="field" style="max-width:260px; margin-bottom:18px;">
     <label>Subject</label>
     <select [(ngModel)]="subject">
       @for (s of subjects; track s) { <option [value]="s">{{ s }}</option> }
     </select>
   </div>
-
   <div class="block">
     <div class="block-head">
       <label>Question</label>
       <div class="mode-switch">
-        <button type="button" [class.active]="questionMode==='photo'" (click)="questionMode='photo'">&#128247; Upload photo</button>
-        <button type="button" [class.active]="questionMode==='text'" (click)="questionMode='text'">&#9999;&#65039; Type text</button>
+        <button type="button" [class.active]="questionMode==='photo'" (click)="questionMode='photo'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          Upload photo
+        </button>
+        <button type="button" [class.active]="questionMode==='text'" (click)="questionMode='text'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>
+          </svg>
+          Type text
+        </button>
       </div>
     </div>
-
     @if (questionMode === 'photo') {
       <input type="file" accept="image/*" (change)="onQuestionPhoto($event)">
       @if (savingQuestion) { <p class="text-faint mono processing">Processing image…</p> }
@@ -34,16 +42,25 @@
       <textarea [(ngModel)]="questionText" placeholder="Type the question here…"></textarea>
     }
   </div>
-
   <div class="block">
     <div class="block-head">
       <label>Explanation (optional)</label>
       <div class="mode-switch">
-        <button type="button" [class.active]="explanationMode==='photo'" (click)="explanationMode='photo'">&#128247; Upload photo</button>
-        <button type="button" [class.active]="explanationMode==='text'" (click)="explanationMode='text'">&#9999;&#65039; Type text</button>
+        <button type="button" [class.active]="explanationMode==='photo'" (click)="explanationMode='photo'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+            <circle cx="12" cy="13" r="4"/>
+          </svg>
+          Upload photo
+        </button>
+        <button type="button" [class.active]="explanationMode==='text'" (click)="explanationMode='text'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>
+          </svg>
+          Type text
+        </button>
       </div>
     </div>
-
     @if (explanationMode === 'photo') {
       <input type="file" accept="image/*" (change)="onExplanationPhoto($event)">
       @if (savingExplanation) { <p class="text-faint mono processing">Processing image…</p> }
@@ -57,7 +74,6 @@
       <textarea [(ngModel)]="explanationText" placeholder="Explain the method or working here…"></textarea>
     }
   </div>
-
   <div class="form-actions">
     @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
     <button class="btn primary" [disabled]="saving || savingQuestion || savingExplanation" (click)="save()">
@@ -65,7 +81,6 @@
     </button>
   </div>
 </div>
-
 <div class="panel card">
   <h3>All special questions ({{ items.length }})</h3>
   @if (items.length === 0) {

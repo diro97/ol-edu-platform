@@ -1,0 +1,40 @@
+<div class="panel card">
+  <h3>{{ editingId ? 'Edit announcement' : 'Post an announcement' }}</h3>
+  <div class="form-grid">
+    <div class="field">
+      <label>Title</label>
+      <input [(ngModel)]="title" placeholder="e.g. O/L Timetable Released">
+    </div>
+    <div class="field">
+      <label>Message</label>
+      <textarea [(ngModel)]="message" placeholder="What students should know"></textarea>
+    </div>
+  </div>
+  <div class="form-actions">
+    @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
+    <button class="btn primary" [disabled]="saving" (click)="save()">
+      {{ saving ? 'Saving…' : (editingId ? 'Update' : 'Post announcement') }}
+    </button>
+  </div>
+</div>
+
+<div class="panel card">
+  <h3>All announcements ({{ announcements.length }})</h3>
+  @if (announcements.length === 0) {
+    <div class="empty">No announcements posted yet.</div>
+  }
+  <div class="row-list">
+    @for (a of announcements; track a.id) {
+      <div class="row">
+        <div class="left">
+          <span class="title">{{ a.title }}</span>
+          <span class="meta mono text-faint">{{ a.createdAt | date:'MMM d, y' }}</span>
+        </div>
+        <div class="actions">
+          <button class="btn small" (click)="edit(a)">Edit</button>
+          <button class="btn small danger" (click)="remove(a)">Delete</button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
