@@ -7,15 +7,93 @@
 .inner{display:flex; align-items:center; justify-content:space-between; padding:14px 24px; gap:16px;}
 
 /* ---------- Brand ---------- */
-.brand{display:flex; align-items:center; gap:10px;}
-.mark{
-  font-family:var(--font-display); font-weight:700; font-size:14px;
-  background:var(--primary); color:#fff; padding:6px 9px; border-radius:8px; letter-spacing:0.02em;
+
+.brand{
+  display:flex; align-items:center; gap:12px;
+  text-decoration:none;
 }
+
+/* Learn-Era badge (icon + name) — replaces old .mark pill styling */
+.mark{
+  display:inline-flex; align-items:center; gap:8px;
+  padding-right:12px;
+  border-right:1px solid var(--border);
+}
+
+
+.brand-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:16px;
+}
+
+.le-mark{
+  width:64px;
+  height:64px;
+  border-radius:16px;
+  background:#122A45;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:2px;
+  position:relative;
+  flex-shrink:0;
+}
+
+.le-l{
+  font-size:28px;
+  font-weight:700;
+  color:#ffffff;
+}
+
+.le-e{
+  font-size:28px;
+  font-weight:700;
+  color:#2FBF8F;
+}
+
+.le-mark::after{
+  content:"";
+  position:absolute;
+  bottom:16px;
+  width:20px;
+  height:3px;
+  border-radius:2px;
+  background:#2FBF8F;
+}
+
+.le-wordmark{
+  display:flex;
+  flex-direction:column;
+}
+
+.le-name{
+  font-size:26px;
+  font-weight:700;
+  color:#122A45;
+  line-height:1.1;
+}
+
+.le-name .dash{
+  color:#3d3d3d;
+}
+
+.le-name .era{
+  color:#1F9E76;
+}
+
+.le-tagline{
+  font-size:11px;
+  font-weight:700;
+  color:#4a4a4a;
+  letter-spacing:1.5px;
+  margin-top:4px;
+}
+
+/* O/L Smart Learning wordmark */
 .brand-text{display:flex; flex-direction:column; line-height:1.15;}
 .brand-text .name{font-family:var(--font-display); font-weight:600; font-size:16px; color:var(--ink);}
 .brand-text .sub{font-family:var(--font-mono); font-size:10px; color:var(--ink-faint); letter-spacing:0.06em;}
-
 /* ---------- Nav layout ---------- */
 nav{display:flex; align-items:center; gap:6px; flex-wrap:wrap;}
 
@@ -98,3 +176,4 @@ nav > .admin-link::before{
   nav a{padding:7px 10px; font-size:12.5px;}
   nav > .admin-link{margin-left:0; padding-left:14px;}
 }
+

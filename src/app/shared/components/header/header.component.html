@@ -8,12 +8,15 @@
 
     <a routerLink="/" class="brand">
 
-      <span class="mark">O/L</span>
-
-      <span class="brand-text">
-        <span class="name">O/L Smart Learning</span>
-        <span class="sub">ONLINE EDUCATION PLATFORM</span>
-      </span>
+ <div class="brand-badge">
+  <span class="le-mark">
+    <span class="le-l">L</span><span class="le-e">E</span>
+  </span>
+  <div class="le-wordmark">
+    <span class="le-name">Learn<span class="dash">-</span><span class="era">Era</span></span>
+    <span class="le-tagline">EMPOWERING EDUCATION</span>
+  </div>
+</div>
 
     </a>
 
@@ -120,41 +123,45 @@
            ADMIN BUTTON - ALWAYS VISIBLE
            ===================================================== -->
 
-      <a
-        routerLink="/admin"
-        [class.active-link]="inAdminArea()"
-        class="admin-link">
 
-        <!-- Admin Shield Icon -->
-        <svg
-          class="admin-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true">
+<a
+  routerLink="/admin"
+  [class.active-link]="inAdminArea()"
+  class="admin-link">
 
-          <!-- Shield -->
-          <path
-            d="M12 3L20 6V11.5C20 16.5 16.8 20.3 12 22C7.2 20.3 4 16.5 4 11.5V6L12 3Z"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linejoin="round"/>
+  <!-- Admin Shield Icon -->
+  <svg
+    class="admin-icon"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-hidden="true">
 
-          <!-- Check -->
-          <path
-            d="M8.5 12L11 14.5L15.8 9.5"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"/>
+    <!-- Shield -->
+    <path
+      d="M12 3L20 6V11.5C20 16.5 16.8 20.3 12 22C7.2 20.3 4 16.5 4 11.5V6L12 3Z"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linejoin="round"/>
 
-        </svg>
+    <!-- Check -->
+    <path
+      d="M8.5 12L11 14.5L15.8 9.5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"/>
 
-        <span>Admin</span>
+  </svg>
 
-      </a>
+  <span>Admin</span>
+
+</a>
+
+
+
 
 
       <!-- =====================================================

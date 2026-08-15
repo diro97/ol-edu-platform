@@ -7,7 +7,7 @@ import { ConfirmService } from '../../../core/services/confirm.service';
 import { compressImageToDataUrl } from '../../../core/services/image-compress.util';
 import { SpecialQuestion, Subject } from '../../../core/models/models';
 
-type InputMode = 'text' | 'photo';
+type InputMode = 'text' | 'photo' | 'link';
 
 @Component({
   selector: 'app-manage-special-questions',
@@ -27,9 +27,9 @@ export class ManageSpecialQuestionsComponent implements OnInit, OnDestroy {
   explanationMode: InputMode = 'photo';
 
   questionText = '';
-  questionImage = '';       // base64 data URL held in memory before save
+  questionImage = '';       // base64 data URL (upload) OR a pasted https:// link (photo or PDF)
   explanationText = '';
-  explanationImage = '';
+  explanationImage = '';    // same dual purpose as questionImage
 
   savingQuestion = false;
   savingExplanation = false;
@@ -85,6 +85,16 @@ export class ManageSpecialQuestionsComponent implements OnInit, OnDestroy {
   clearQuestionPhoto(): void { this.questionImage = ''; }
   clearExplanationPhoto(): void { this.explanationImage = ''; }
 
+  /** True if this is a pasted PDF link (vs a photo — uploaded or linked). */
+  isPdf(url: string): boolean {
+    return /\.pdf(\?|#|$)/i.test(url);
+  }
+
+  /** True if this is an uploaded photo (base64) rather than a pasted external link. */
+  private isUploadedPhoto(value: string): boolean {
+    return value.startsWith('data:');
+  }
+
   resetForm(): void {
     this.editingId = null;
     this.subject = 'Mathematics';
@@ -99,29 +109,52 @@ export class ManageSpecialQuestionsComponent implements OnInit, OnDestroy {
   edit(item: SpecialQuestion): void {
     this.editingId = item.id;
     this.subject = item.subject;
+
     this.questionText = item.questionText || '';
     this.questionImage = item.questionImage || '';
-    this.questionMode = item.questionImage ? 'photo' : 'text';
+    this.questionMode = item.questionImage
+      ? (this.isUploadedPhoto(item.questionImage) ? 'photo' : 'link')
+      : 'text';
+
     this.explanationText = item.explanationText || '';
     this.explanationImage = item.explanationImage || '';
-    this.explanationMode = item.explanationImage ? 'photo' : 'text';
+    this.explanationMode = item.explanationImage
+      ? (this.isUploadedPhoto(item.explanationImage) ? 'photo' : 'link')
+      : 'text';
+
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   async save(): Promise<void> {
-    const hasQuestion = this.questionMode === 'photo' ? !!this.questionImage : !!this.questionText.trim();
+    const hasQuestion = this.questionMode === 'text'
+      ? !!this.questionText.trim()
+      : !!this.questionImage.trim();
+
     if (!hasQuestion) {
-      this.toast.show(this.questionMode === 'photo' ? 'Upload a question photo first' : 'Type the question text');
+      this.toast.show(
+        this.questionMode === 'text' ? 'Type the question text'
+        : this.questionMode === 'link' ? 'Paste a link to the question photo or PDF'
+        : 'Upload a question photo first'
+      );
       return;
     }
+    if (this.questionMode === 'link' && !this.isValidUrl(this.questionImage)) {
+      this.toast.show('That doesn\'t look like a valid link — it should start with https://');
+      return;
+    }
+    if (this.explanationMode === 'link' && this.explanationImage.trim() && !this.isValidUrl(this.explanationImage)) {
+      this.toast.show('The explanation link doesn\'t look valid — it should start with https://');
+      return;
+    }
+
     this.saving = true;
     try {
       const payload = {
         subject: this.subject,
         questionText: this.questionMode === 'text' ? this.questionText.trim() : '',
-        questionImage: this.questionMode === 'photo' ? this.questionImage : '',
+        questionImage: this.questionMode !== 'text' ? this.questionImage.trim() : '',
         explanationText: this.explanationMode === 'text' ? this.explanationText.trim() : '',
-        explanationImage: this.explanationMode === 'photo' ? this.explanationImage : ''
+        explanationImage: this.explanationMode !== 'text' ? this.explanationImage.trim() : ''
       };
       if (this.editingId) {
         await this.svc.update(this.editingId, payload);
@@ -133,9 +166,18 @@ export class ManageSpecialQuestionsComponent implements OnInit, OnDestroy {
       this.resetForm();
     } catch (e) {
       console.error(e);
-      this.toast.show('Something went wrong — the photo may be too large. Try a smaller image.');
+      this.toast.show('Something went wrong — an uploaded photo may be too large. Try a smaller image, or paste a link instead.');
     } finally {
       this.saving = false;
+    }
+  }
+
+  private isValidUrl(value: string): boolean {
+    try {
+      const u = new URL(value.trim());
+      return u.protocol === 'http:' || u.protocol === 'https:';
+    } catch {
+      return false;
     }
   }
 

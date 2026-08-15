@@ -76,4 +76,7 @@ export class SubjectComponent implements OnInit, OnDestroy {
     if (this.subject === 'Science') return 'science';
     return 'it';
   }
+isPdf(url: string): boolean {
+  return /\.pdf(\?|#|$)/i.test(url);
+}
 }

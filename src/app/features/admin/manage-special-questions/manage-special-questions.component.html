@@ -1,8 +1,8 @@
 <div class="panel card">
   <h3>{{ editingId ? 'Edit special question' : 'Add a special question' }}</h3>
   <p class="hint text-dim">
-    Great for handwritten workings, diagrams, or textbook screenshots — upload a photo
-    directly, or type it out as plain text instead.
+    Great for handwritten workings, diagrams, or textbook screenshots — upload a photo,
+    paste a link to a photo or PDF, or type it out as plain text.
   </p>
   <div class="field" style="max-width:260px; margin-bottom:18px;">
     <label>Subject</label>
@@ -10,6 +10,7 @@
       @for (s of subjects; track s) { <option [value]="s">{{ s }}</option> }
     </select>
   </div>
+
   <div class="block">
     <div class="block-head">
       <label>Question</label>
@@ -21,6 +22,13 @@
           </svg>
           Upload photo
         </button>
+        <button type="button" [class.active]="questionMode==='link'" (click)="questionMode='link'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Paste link
+        </button>
         <button type="button" [class.active]="questionMode==='text'" (click)="questionMode='text'">
           <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>
@@ -29,6 +37,7 @@
         </button>
       </div>
     </div>
+
     @if (questionMode === 'photo') {
       <input type="file" accept="image/*" (change)="onQuestionPhoto($event)">
       @if (savingQuestion) { <p class="text-faint mono processing">Processing image…</p> }
@@ -38,10 +47,27 @@
           <button type="button" class="btn small danger" (click)="clearQuestionPhoto()">Remove photo</button>
         </div>
       }
+    } @else if (questionMode === 'link') {
+      <input
+        type="url"
+        [(ngModel)]="questionImage"
+        placeholder="https://example.com/question.pdf  or  https://example.com/photo.jpg"
+      >
+      @if (questionImage) {
+        <div class="preview link-preview">
+          @if (isPdf(questionImage)) {
+            <a class="btn small" [href]="questionImage" target="_blank" rel="noopener">&#128196; Preview PDF</a>
+          } @else {
+            <img [src]="questionImage" alt="Question preview">
+          }
+          <button type="button" class="btn small danger" (click)="clearQuestionPhoto()">Remove link</button>
+        </div>
+      }
     } @else {
       <textarea [(ngModel)]="questionText" placeholder="Type the question here…"></textarea>
     }
   </div>
+
   <div class="block">
     <div class="block-head">
       <label>Explanation (optional)</label>
@@ -53,6 +79,13 @@
           </svg>
           Upload photo
         </button>
+        <button type="button" [class.active]="explanationMode==='link'" (click)="explanationMode='link'">
+          <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+          </svg>
+          Paste link
+        </button>
         <button type="button" [class.active]="explanationMode==='text'" (click)="explanationMode='text'">
           <svg class="mode-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5z"/>
@@ -61,6 +94,7 @@
         </button>
       </div>
     </div>
+
     @if (explanationMode === 'photo') {
       <input type="file" accept="image/*" (change)="onExplanationPhoto($event)">
       @if (savingExplanation) { <p class="text-faint mono processing">Processing image…</p> }
@@ -70,10 +104,27 @@
           <button type="button" class="btn small danger" (click)="clearExplanationPhoto()">Remove photo</button>
         </div>
       }
+    } @else if (explanationMode === 'link') {
+      <input
+        type="url"
+        [(ngModel)]="explanationImage"
+        placeholder="https://example.com/explanation.pdf  or  https://example.com/photo.jpg"
+      >
+      @if (explanationImage) {
+        <div class="preview link-preview">
+          @if (isPdf(explanationImage)) {
+            <a class="btn small" [href]="explanationImage" target="_blank" rel="noopener">&#128196; Preview PDF</a>
+          } @else {
+            <img [src]="explanationImage" alt="Explanation preview">
+          }
+          <button type="button" class="btn small danger" (click)="clearExplanationPhoto()">Remove link</button>
+        </div>
+      }
     } @else {
       <textarea [(ngModel)]="explanationText" placeholder="Explain the method or working here…"></textarea>
     }
   </div>
+
   <div class="form-actions">
     @if (editingId) { <button class="btn" (click)="resetForm()">Cancel</button> }
     <button class="btn primary" [disabled]="saving || savingQuestion || savingExplanation" (click)="save()">
@@ -81,6 +132,7 @@
     </button>
   </div>
 </div>
+
 <div class="panel card">
   <h3>All special questions ({{ items.length }})</h3>
   @if (items.length === 0) {
@@ -91,17 +143,31 @@
       <div class="sq-card" [class.open]="expandedId===item.id">
         <button class="sq-head" (click)="toggle(item.id)">
           <span class="badge" [class.math]="item.subject==='Mathematics'" [class.science]="item.subject==='Science'" [class.it]="item.subject==='IT'">{{ item.subject }}</span>
-          <span class="sq-preview-text">{{ item.questionText || (item.questionImage ? 'Photo question' : '') }}</span>
+          <span class="sq-preview-text">
+            {{ item.questionText || (item.questionImage ? (isPdf(item.questionImage) ? 'PDF question' : 'Photo question') : '') }}
+          </span>
           <span class="chev">{{ expandedId===item.id ? '−' : '+' }}</span>
         </button>
         @if (expandedId===item.id) {
           <div class="sq-body">
-            @if (item.questionImage) { <img class="sq-img" [src]="item.questionImage" alt="Question"> }
+            @if (item.questionImage) {
+              @if (isPdf(item.questionImage)) {
+                <a class="btn small" [href]="item.questionImage" target="_blank" rel="noopener">&#128196; Open question PDF</a>
+              } @else {
+                <img class="sq-img" [src]="item.questionImage" alt="Question">
+              }
+            }
             @if (item.questionText) { <p>{{ item.questionText }}</p> }
             @if (item.explanationImage || item.explanationText) {
               <div class="sq-explanation">
                 <h4>Explanation</h4>
-                @if (item.explanationImage) { <img class="sq-img" [src]="item.explanationImage" alt="Explanation"> }
+                @if (item.explanationImage) {
+                  @if (isPdf(item.explanationImage)) {
+                    <a class="btn small" [href]="item.explanationImage" target="_blank" rel="noopener">&#128196; Open explanation PDF</a>
+                  } @else {
+                    <img class="sq-img" [src]="item.explanationImage" alt="Explanation">
+                  }
+                }
                 @if (item.explanationText) { <p>{{ item.explanationText }}</p> }
               </div>
             }

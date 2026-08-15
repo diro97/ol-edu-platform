@@ -103,14 +103,26 @@
     <div class="special-list">
       @for (item of specialQuestions; track item.id) {
         <div class="special-card">
-          @if (item.questionImage) { <img class="special-img" [src]="item.questionImage" alt="Question"> }
+          @if (item.questionImage) {
+            @if (isPdf(item.questionImage)) {
+              <a class="btn small primary" [href]="item.questionImage" target="_blank" rel="noopener">&#128196; Open question PDF</a>
+            } @else {
+              <img class="special-img" [src]="item.questionImage" alt="Question">
+            }
+          }
           @if (item.questionText) { <p class="special-question-text">{{ item.questionText }}</p> }
 
           @if (item.explanationImage || item.explanationText) {
             @if (revealedExplanation.has(item.id)) {
               <div class="special-explanation">
                 <h4>Explanation</h4>
-                @if (item.explanationImage) { <img class="special-img" [src]="item.explanationImage" alt="Explanation"> }
+                @if (item.explanationImage) {
+                  @if (isPdf(item.explanationImage)) {
+                    <a class="btn small" [href]="item.explanationImage" target="_blank" rel="noopener">&#128196; Open explanation PDF</a>
+                  } @else {
+                    <img class="special-img" [src]="item.explanationImage" alt="Explanation">
+                  }
+                }
                 @if (item.explanationText) { <p>{{ item.explanationText }}</p> }
               </div>
               <button class="btn small ghost" (click)="toggleExplanation(item.id)">Hide explanation</button>
